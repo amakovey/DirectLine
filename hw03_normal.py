@@ -34,7 +34,7 @@ sort_to_max([2, 10, -12, 2.5, 20, -11, 4, 4, 0])
 def filter (a,b):
 	c=[]
 	for i in b:
-		if i == a:
+		if a(i) == True:
 			c.append(i)
 	return (c)
 
