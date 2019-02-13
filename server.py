@@ -1,7 +1,7 @@
 import socket, time, json
 
 def probe(addr):
-    t = time.time()
+    t = time.strftime("%Y-%m-%d-%H.%M.%S", time.localtime())
     client.sendto(json.dumps({"action": "probe", "time": t}).encode(),addr)
     request = client.recv(1024)
     print (json.loads(request.decode()))
@@ -19,8 +19,6 @@ while True:
         clients.append(addr)
         print(addr, ' is Connected')
     probe(addr)
-
-
 
 
 
