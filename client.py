@@ -1,6 +1,7 @@
 import socket, time, json
 
-def presence():
+def presence(name):
+    t = time.strftime("%Y-%m-%d-%H.%M.%S", time.localtime())
     presence = {"action": "presence", "time": t, "type": "status",
                 "user": {"account_name": name, "status": "Yep, I am here!"}}
 
@@ -18,8 +19,8 @@ name = 'Andrey'
 passwd = 'MyPass'
 auth(name,passwd, server)
 while True:
-    t = time.time()
+
     request = s.recv(1024)
     print(request.decode())
-    presence()
+    presence(name)
 s.close()
