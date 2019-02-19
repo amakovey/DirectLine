@@ -1,26 +1,31 @@
-import socket, time, json
-
-def presence(name):
-    t = time.strftime("%Y-%m-%d-%H.%M.%S", time.localtime())
-    presence = {"action": "presence", "time": t, "type": "status",
-                "user": {"account_name": name, "status": "Yep, I am here!"}}
-
-    s.sendto(json.dumps(presence).encode(), server)
-def auth(name, passwd,server):
-    t = time.time()
-    s.sendto(json.dumps({"action": "authenticate", "time": t, "user": {"account_name": name, "password": passwd}}).encode(),server)
+import socket, time, json, sys
 
 host = 'localhost'
 port = 9090
 server = (host,port)
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect(server)
-name = 'Andrey'
-passwd = 'MyPass'
-auth(name,passwd, server)
-while True:
 
-    request = s.recv(1024)
-    print(request.decode())
-    presence(name)
-s.close()
+def client_read():
+    while True:
+        data = s.recv(1024).decode('ascii')
+        print('Ответ:', data)
+    s.close()
+
+def client_write():
+    while True:
+        msg = input('Ваше сообщение: ')
+        if msg == 'exit':
+            break
+        s.send(msg.encode('ascii'))  # Отправить!
+    s.close()
+
+
+if len(sys.argv) <2:
+    print ("Недостаточно параметров (w - write/r - read)")
+elif sys.argv[1] == 'r':
+    client_read()
+elif sys.argv[1] == 'w':
+    client_write()
+else:
+    print ("Неверный ключ (w - write/r - read)")
