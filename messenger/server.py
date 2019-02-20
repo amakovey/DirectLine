@@ -1,21 +1,21 @@
 import socket, time, json, select
 import log_config
 
-def logger(what):
-    def wrap(w,data):
-        what(w,data)
+def log(what):
+    def wrap(*args):
+        what(*args)
         log = log_config.logging.getLogger("app")
-        for i in w:
-            log.critical("Data %s sended to %s", data, i)
+        log.critical(args)
     return wrap
 
+# Почему при добавлении декратора @log к функции read_msg перестает работать функция send_msg ?
 def read_msg(r):
     for i in r:
         data = i.recv(1024).decode('ascii')
         print (data)
     return data
 
-@logger
+@log
 def send_msg(w,data):
     for i in w:
         resp = data.encode('ascii')
