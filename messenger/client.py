@@ -9,7 +9,9 @@ s.connect(server)
 def client_read():
     while True:
         data = s.recv(1024).decode('ascii')
-        print('Ответ:', data)
+        a = json.loads(data)
+        print('Ответ:', a["message"])
+
     s.close()
 
 def client_write():

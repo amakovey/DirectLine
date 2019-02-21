@@ -1,25 +1,6 @@
 import socket, time, json, select
-import log_config
-
-def log(what):
-    def wrap(*args):
-        what(*args)
-        log = log_config.logging.getLogger("app")
-        log.critical(args)
-    return wrap
-
-# Почему при добавлении декратора @log к функции read_msg перестает работать функция send_msg ?
-def read_msg(r):
-    for i in r:
-        data = i.recv(1024).decode('ascii')
-        print (data)
-    return data
-
-@log
-def send_msg(w,data):
-    for i in w:
-        resp = data.encode('ascii')
-        test_len = i.send(resp)
+from log_config import log
+import JIM
 
 host = 'localhost'
 port = 9090
@@ -47,6 +28,6 @@ while True:
             pass
 
     if r:
-        data = read_msg(r)
+        data = JIM.Response.send(r)
     if w and data:
-        send_msg(w,data)
+        JIM.Message.send(w, data)
