@@ -28,11 +28,15 @@ def add_db2(data, name):
     q = ',?'
     con = sqlite3.connect('base.db')
     cur = con.cursor()
-    query = 'INSERT INTO ' + name + ' VALUES (?' + q * n + ')'
-    for i in data:
-        cur.execute(query, i)
-        con.commit()
-
+    try:
+        query = 'INSERT INTO ' + name + ' VALUES (?' + q * n + ')'
+        for i in data:
+            cur.execute(query, i)
+            con.commit()
+    except:
+        print ("Запись в таблицу невозможна, т.ю. уникальные значения уже существуют")
+    cur.close()
+    con.close()
 
 def make_table():
     con = sqlite3.connect('base.db')
@@ -108,9 +112,9 @@ sportsman = [[1, "Ivanov A.A.", 1, "1970", 10, "Russia"],
 create_db()
 
 # 2. Заполните таблицы тестовыми данными с помощью команды INSERT
-add_db2(competition, "competition") # При повторном запуске будет ругаться, т.к. в таблице Primary key
+add_db2(competition, "competition")
 add_db2(result, "result")
-add_db2(sportsman, "sportsman")# При повторном запуске будет ругаться, т.к. в таблице Primary key
+add_db2(sportsman, "sportsman")
 
 # 3. Создать таблицу как результат выполнения команды SELECT
 make_table()
