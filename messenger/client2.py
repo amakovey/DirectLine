@@ -8,7 +8,7 @@ port = 9090
 server = (host,port)
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect(server)
-name = "Vova"
+name = "Edward"
 pasw = "pass"
 user = JIM.Client(name,pasw)
 userdb = dbclient.DbStore(name)
@@ -27,8 +27,9 @@ def client_receive(user, s):
                 cl_clist = user.allcontacts(s, a)
                 print (cl_clist)
         except:
-            if a["action"] =="msg":
-                print (a["message"])
+            pass
+        if a["action"] =="msg":
+            print (a["message"])
     s.close()
 def client_write():
      list = []
